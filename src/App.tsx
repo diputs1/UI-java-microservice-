@@ -10,17 +10,13 @@ import {
   CheckCircle2,
   ChevronRight,
   ClipboardList,
-  Database,
-  Fingerprint,
   Gauge,
   HeartPulse,
   Home,
-  KeyRound,
   Layers3,
   Package,
   RefreshCcw,
   Search,
-  ShieldCheck,
   ShoppingBasket,
   Terminal,
   UserCircle
@@ -101,7 +97,13 @@ function CatalogPage({ onAdd }: { onAdd: (product: Product) => void }) {
       </section>
 
       {isError ? <div className="notice warning">Backend unavailable. Showing mock catalog fallback.</div> : null}
-      {isLoading ? <div className="grid skeleton-grid">{Array.from({ length: 4 }).map((_, i) => <div className="skeleton-card" key={i} />)}</div> : null}
+      {isLoading ? (
+        <div className="grid skeleton-grid">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div className="skeleton-card" key={i} />
+          ))}
+        </div>
+      ) : null}
 
       <section className="grid product-grid">
         {products.map((product, index) => (
@@ -124,7 +126,11 @@ function CatalogPage({ onAdd }: { onAdd: (product: Product) => void }) {
               </dl>
               <div className="card-actions">
                 <strong>{money(Number(product.price))}</strong>
-                <button className="icon-button primary" onClick={() => onAdd(product)} aria-label={`Add ${product.name}`}>
+                <button
+                  className="icon-button primary"
+                  onClick={() => onAdd(product)}
+                  aria-label={`Add ${product.name}`}
+                >
                   <ShoppingBasket size={18} />
                 </button>
               </div>
@@ -175,7 +181,17 @@ function CheckoutPage({ items, setItems }: { items: BasketItem[]; setItems: (ite
             <p className="eyebrow">POST /api/v1/orders</p>
             <h1>Checkout Saga</h1>
           </div>
-          <StatusBadge value={phase === "reserved" ? "INVENTORY_RESERVED" : phase === "completed" ? "COMPLETED" : phase === "failed" ? "FAILED" : "PENDING"} />
+          <StatusBadge
+            value={
+              phase === "reserved"
+                ? "INVENTORY_RESERVED"
+                : phase === "completed"
+                  ? "COMPLETED"
+                  : phase === "failed"
+                    ? "FAILED"
+                    : "PENDING"
+            }
+          />
         </div>
 
         <div className="stepper">
@@ -204,7 +220,8 @@ function CheckoutPage({ items, setItems }: { items: BasketItem[]; setItems: (ite
 
         {orderMutation.data ? (
           <div className="notice success">
-            Order {orderMutation.data.id} is {orderMutation.data.status}. Idempotency key: {orderMutation.data.idempotencyKey}
+            Order {orderMutation.data.id} is {orderMutation.data.status}. Idempotency key:{" "}
+            {orderMutation.data.idempotencyKey}
           </div>
         ) : null}
       </section>
@@ -229,7 +246,12 @@ function CheckoutPage({ items, setItems }: { items: BasketItem[]; setItems: (ite
                     <strong>{item.productName}</strong>
                     <span>{item.sku}</span>
                   </div>
-                  <input type="number" min={1} value={item.quantity} onChange={(event) => updateQty(item.sku, Number(event.target.value))} />
+                  <input
+                    type="number"
+                    min={1}
+                    value={item.quantity}
+                    onChange={(event) => updateQty(item.sku, Number(event.target.value))}
+                  />
                   <b>{money(item.quantity * item.unitPrice)}</b>
                 </div>
               ))}
@@ -238,7 +260,11 @@ function CheckoutPage({ items, setItems }: { items: BasketItem[]; setItems: (ite
               <span>Total</span>
               <strong>{money(total)}</strong>
             </div>
-            <button className="primary-button" disabled={orderMutation.isPending} onClick={() => orderMutation.mutate()}>
+            <button
+              className="primary-button"
+              disabled={orderMutation.isPending}
+              onClick={() => orderMutation.mutate()}
+            >
               {orderMutation.isPending ? "Processing saga..." : "Confirm Checkout"}
               <ChevronRight size={18} />
             </button>
@@ -261,11 +287,21 @@ function AdminLayout() {
           </div>
         </div>
         <nav>
-          <NavLink to="/admin/monitoring"><BarChart3 /> Monitoring</NavLink>
-          <NavLink to="/admin/products"><Package /> Catalog</NavLink>
-          <NavLink to="/admin/inventory"><Boxes /> Inventory</NavLink>
-          <NavLink to="/admin/orders"><ShoppingBasket /> Orders</NavLink>
-          <NavLink to="/admin/jobs"><Terminal /> Jobs</NavLink>
+          <NavLink to="/admin/monitoring">
+            <BarChart3 /> Monitoring
+          </NavLink>
+          <NavLink to="/admin/products">
+            <Package /> Catalog
+          </NavLink>
+          <NavLink to="/admin/inventory">
+            <Boxes /> Inventory
+          </NavLink>
+          <NavLink to="/admin/orders">
+            <ShoppingBasket /> Orders
+          </NavLink>
+          <NavLink to="/admin/jobs">
+            <Terminal /> Jobs
+          </NavLink>
         </nav>
         <div className="admin-profile">
           <UserCircle />
@@ -345,7 +381,19 @@ function MonitoringPage() {
   );
 }
 
-function Metric({ icon, label, value, helper, danger }: { icon: React.ReactNode; label: string; value: string; helper: string; danger?: boolean }) {
+function Metric({
+  icon,
+  label,
+  value,
+  helper,
+  danger
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  helper: string;
+  danger?: boolean;
+}) {
   return (
     <article className={`metric-card ${danger ? "danger" : ""}`}>
       {icon}
@@ -363,7 +411,13 @@ function AdminProducts() {
       <AdminHeader title="Catalog Management" caption="ADMIN + catalog.write" />
       <DataTable
         headers={["SKU", "Name", "Price", "Deprecated quantity", "Updated"]}
-        rows={data.map((product) => [product.sku, product.name, money(Number(product.price)), product.quantity ?? "deprecated", product.updatedAt ?? "-"])}
+        rows={data.map((product) => [
+          product.sku,
+          product.name,
+          money(Number(product.price)),
+          product.quantity ?? "deprecated",
+          product.updatedAt ?? "-"
+        ])}
       />
     </main>
   );
@@ -374,7 +428,10 @@ function InventoryPage() {
   return (
     <main className="admin-main">
       <AdminHeader title="Inventory" caption="MongoDB stock authority and reservations" />
-      <DataTable headers={["ID", "SKU", "Available", "Location", "Reservation policy"]} rows={data.map((item) => [item.id, item.sku, item.availableQuantity, item.location, "Atomic reserve/release"])} />
+      <DataTable
+        headers={["ID", "SKU", "Available", "Location", "Reservation policy"]}
+        rows={data.map((item) => [item.id, item.sku, item.availableQuantity, item.location, "Atomic reserve/release"])}
+      />
     </main>
   );
 }
@@ -399,14 +456,27 @@ function OrdersPage() {
       </div>
       <DataTable
         headers={["Order ID", "Owner", "Total", "Status", "Created", "Idempotency Key"]}
-        rows={data.map((order) => [order.id, order.ownerSubject ?? `customer:${order.customerId}`, money(Number(order.totalAmount)), <StatusBadge value={order.status} />, new Date(order.createdAt).toLocaleString(), order.idempotencyKey ?? "-"])}
+        rows={data.map((order) => [
+          order.id,
+          order.ownerSubject ?? `customer:${order.customerId}`,
+          money(Number(order.totalAmount)),
+          <StatusBadge value={order.status} />,
+          new Date(order.createdAt).toLocaleString(),
+          order.idempotencyKey ?? "-"
+        ])}
       />
       <section className="panel detail-panel">
         <h2>Selected Saga Trace</h2>
         <div className="timeline">
-          <div className="done"><CheckCircle2 /> Order PENDING saved with basket snapshot</div>
-          <div className="done"><Archive /> Inventory RESERVED before completion</div>
-          <div className="warn"><RefreshCcw /> Outbox publisher uses confirm + retry backoff</div>
+          <div className="done">
+            <CheckCircle2 /> Order PENDING saved with basket snapshot
+          </div>
+          <div className="done">
+            <Archive /> Inventory RESERVED before completion
+          </div>
+          <div className="warn">
+            <RefreshCcw /> Outbox publisher uses confirm + retry backoff
+          </div>
         </div>
       </section>
     </main>
@@ -417,8 +487,21 @@ function JobsPage() {
   const { data = [] } = useQuery({ queryKey: ["jobs"], queryFn: getJobEvents });
   return (
     <main className="admin-main">
-      <AdminHeader title="Background Jobs & Events" caption="Audit, recovery, cleanup retry, reservation expiration, DLQ" />
-      <DataTable headers={["Event ID", "Type", "Aggregate", "Correlation", "Status", "Occurred"]} rows={data.map((event) => [event.id, event.eventType, event.aggregateId, event.correlationId, <StatusBadge value={event.status} />, new Date(event.occurredAt).toLocaleString()])} />
+      <AdminHeader
+        title="Background Jobs & Events"
+        caption="Audit, recovery, cleanup retry, reservation expiration, DLQ"
+      />
+      <DataTable
+        headers={["Event ID", "Type", "Aggregate", "Correlation", "Status", "Occurred"]}
+        rows={data.map((event) => [
+          event.id,
+          event.eventType,
+          event.aggregateId,
+          event.correlationId,
+          <StatusBadge value={event.status} />,
+          new Date(event.occurredAt).toLocaleString()
+        ])}
+      />
     </main>
   );
 }
@@ -428,11 +511,19 @@ function DataTable({ headers, rows }: { headers: string[]; rows: React.ReactNode
     <section className="panel table-panel">
       <table>
         <thead>
-          <tr>{headers.map((header) => <th key={header}>{header}</th>)}</tr>
+          <tr>
+            {headers.map((header) => (
+              <th key={header}>{header}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {rows.map((row, index) => (
-            <tr key={index}>{row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>
+            <tr key={index}>
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex}>{cell}</td>
+              ))}
+            </tr>
           ))}
         </tbody>
       </table>
@@ -459,7 +550,9 @@ function RoadmapPage() {
         <div className="roadmap-hero">
           <p className="eyebrow">Architecture Roadmap 2025</p>
           <h1>Java Microservices Production Foundation</h1>
-          <div className="progress-line"><span style={{ width: "10%" }} /></div>
+          <div className="progress-line">
+            <span style={{ width: "10%" }} />
+          </div>
         </div>
         <div className="roadmap-grid">
           <article className="roadmap-card large">
@@ -473,10 +566,18 @@ function RoadmapPage() {
           </article>
           <article className="roadmap-card checklist">
             <h2>Readiness Checklist</h2>
-            <label><input type="checkbox" checked readOnly /> Non-root Docker images</label>
-            <label><input type="checkbox" checked readOnly /> Error contract with traceId</label>
-            <label><input type="checkbox" readOnly /> 100 RPS k6 load test</label>
-            <label><input type="checkbox" readOnly /> Helm staging green</label>
+            <label>
+              <input type="checkbox" checked readOnly /> Non-root Docker images
+            </label>
+            <label>
+              <input type="checkbox" checked readOnly /> Error contract with traceId
+            </label>
+            <label>
+              <input type="checkbox" readOnly /> 100 RPS k6 load test
+            </label>
+            <label>
+              <input type="checkbox" readOnly /> Helm staging green
+            </label>
           </article>
           <article className="roadmap-card code-card">
             <pre>{`server:

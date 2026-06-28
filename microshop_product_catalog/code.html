@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MicroShop Ecosystem | Premium Electronics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "on-surface": "#191c1e",
+                    "on-primary-container": "#7c839b",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-tertiary-fixed-variant": "#004c6e",
+                    "on-surface-variant": "#45464d",
+                    "surface-variant": "#e0e3e5",
+                    "inverse-primary": "#bec6e0",
+                    "primary-container": "#131b2e",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "on-tertiary-fixed": "#001e2f",
+                    "secondary-container": "#d5e3fd",
+                    "tertiary": "#000000",
+                    "on-primary-fixed": "#131b2e",
+                    "primary": "#000000",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary": "#515f74",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "outline": "#76777d",
+                    "on-background": "#191c1e",
+                    "surface-container": "#eceef0",
+                    "background": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary-container": "#008cc7",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "tertiary-fixed": "#c9e6ff",
+                    "primary-fixed": "#dae2fd",
+                    "tertiary-container": "#001e2f",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#57657b",
+                    "surface": "#f7f9fb",
+                    "secondary-fixed": "#d5e3fd",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#565e74",
+                    "primary-fixed-dim": "#bec6e0",
+                    "surface-dim": "#d8dadc",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-bright": "#f7f9fb",
+                    "inverse-on-surface": "#eff1f3",
+                    "outline-variant": "#c6c6cd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "sidebar-width": "260px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "xl": "48px",
+                    "md": "16px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "marketing-h2": ["Inter"],
+                    "data-mono": ["JetBrains Mono"],
+                    "label-caps": ["Inter"],
+                    "body-base": ["Inter"],
+                    "marketing-h1": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "admin-h1": ["Inter"]
+            },
+            "fontSize": {
+                    "marketing-h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "data-mono": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "marketing-h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "admin-h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .product-card:hover .add-to-cart-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-base min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-lg h-16 sticky top-0 z-50 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-on-primary">MicroShop Ecosystem</span>
+<!-- Global Search -->
+<div class="relative w-64 md:w-96 group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary-fixed transition-all text-body-sm font-body-sm" placeholder="Search catalog..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-secondary border-b-2 border-secondary font-bold font-body-md text-body-md hover:bg-surface-container-low transition-colors px-2 py-1" href="#">Catalog</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md px-2 py-1" href="#">Inventory</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md px-2 py-1" href="#">Orders</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md px-2 py-1" href="#">Jobs</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">account_circle</button>
+<button class="bg-primary text-on-primary px-lg py-2 rounded font-bold hover:opacity-80 transition-opacity flex items-center gap-sm">
+<span class="material-symbols-outlined">shopping_basket</span>
+                Basket
+            </button>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-lg py-xl">
+<!-- Hero Section & Filters -->
+<section class="mb-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-lg mb-lg">
+<div>
+<h1 class="font-marketing-h1 text-marketing-h1 text-primary mb-xs">Premium Electronics</h1>
+<p class="text-on-surface-variant max-w-xl font-body-base text-body-base">Curated high-end hardware. Real-time inventory powered by our microservices orchestrator.</p>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-2">
+<button class="px-lg py-2 bg-primary text-on-primary rounded-full font-label-caps text-label-caps whitespace-nowrap">All Products</button>
+<button class="px-lg py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps transition-colors whitespace-nowrap">Smartphones</button>
+<button class="px-lg py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps transition-colors whitespace-nowrap">Laptops</button>
+<button class="px-lg py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps transition-colors whitespace-nowrap">Accessories</button>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant w-full"></div>
+</section>
+<!-- Product Grid / Bento Style -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg" id="product-container">
+<!-- Real Content Cards (Simulated) -->
+<!-- Card 1 -->
+<div class="product-card group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional studio photograph of a sleek, titanium-finish smartphone lying on a dark reflective surface. The lighting is dramatic, high-contrast chiaroscuro, highlighting the metallic edges and the triple-lens camera module. The overall mood is luxurious, futuristic, and technically precise, emphasizing premium build quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8J9y0oPhK-P9C9PQpWjIwmz3zDWUrzkCYvul_0WOievGgtZNMfvNiTJw-7Kx49HUA7QvCtQL3ofi7hJqE4iXAXF53k1SQ-goAW1MXVakR4_rVFQLRQL3ucugamWI3QJGPQARc5LKyCL6cKSV9g4-eDyG-mcVPkwVWOJ_nHx4G8ozvEE3JCn5GqicER4OU8S7-s7p4RFowiu8n1SiOyy_fUXM1Q-RjI5iAF23lubqr7CHUvQVorNdrLZyEPmyvR8nouc7F9PQm8fg"/>
+<div class="absolute top-md left-md">
+<span class="px-sm py-1 bg-on-tertiary-container text-on-tertiary text-xs font-bold rounded-sm uppercase tracking-wider">In Stock</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-admin-h1 text-admin-h1 text-primary">Quantum X1 Phone</h3>
+<span class="font-data-mono text-data-mono text-on-surface-variant opacity-60">SKU-8821</span>
+</div>
+<div class="flex items-center justify-between mt-md">
+<span class="font-marketing-h2 text-marketing-h2 text-primary">$1,299.00</span>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-secondary-container text-secondary transition-colors">add_shopping_cart</button>
+</div>
+</div>
+<!-- Hover Overlay -->
+<div class="add-to-cart-overlay absolute bottom-0 left-0 right-0 p-md bg-gradient-to-t from-primary/90 to-transparent opacity-0 translate-y-4 transition-all duration-300 pointer-events-none">
+<button class="w-full py-3 bg-white text-primary font-bold rounded shadow-xl pointer-events-auto active:scale-95 transition-transform">Add to Basket</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="product-card group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-end ultra-thin laptop displayed open in a minimalist workspace. The screen displays a colorful abstract mesh gradient. The lighting is soft and natural, coming from a large window off-camera, casting subtle shadows on a polished concrete floor. The aesthetic is professional, modern, and emphasizes productivity and technical performance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1VEDFb9wqvKn5k5_TSXlZKFc0F_WPQwIE0U7SrNFLy96HWNY3W4CuqceYNJecUJ1HsEsDTVn6ydxUSKfyCvxfzqB6OwbVZMThx1e0xQKQj0hjdqgVIQ0HPePGgBn0fgaaSXnTypozMWJd3hUtg-QKSS5j7kMKaqTDAS0M1Oyi3tl6jgCwFMbIN7BvHVlYru5Uo1voGEv1yVAw8iyPmgzfoqnWciKXY6r48SZsaAKF2Pa6o1GN2TYU3n79IZXToJGS36v57yLEFgg"/>
+<div class="absolute top-md left-md">
+<span class="px-sm py-1 bg-error-container text-on-error-container text-xs font-bold rounded-sm uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                            Limited
+                        </span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-admin-h1 text-admin-h1 text-primary">NebulaBook Pro 16</h3>
+<span class="font-data-mono text-data-mono text-on-surface-variant opacity-60">SKU-4402</span>
+</div>
+<div class="flex items-center justify-between mt-md">
+<span class="font-marketing-h2 text-marketing-h2 text-primary">$2,499.00</span>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-secondary-container text-secondary transition-colors">add_shopping_cart</button>
+</div>
+</div>
+<div class="add-to-cart-overlay absolute bottom-0 left-0 right-0 p-md bg-gradient-to-t from-primary/90 to-transparent opacity-0 translate-y-4 transition-all duration-300 pointer-events-none">
+<button class="w-full py-3 bg-white text-primary font-bold rounded shadow-xl pointer-events-auto active:scale-95 transition-transform">Add to Basket</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="product-card group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up product photography of high-fidelity noise-canceling headphones with premium leather padding and matte black finish. The image uses sharp focus and a shallow depth of field, with soft blue ambient backlighting that suggests high-tech audio engineering and luxury comfort. Professional corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfbCiLCfBug535n2SVaB7-f50Gx1EDodfmuyMoXSBBCdcP7WdBNX3w2OhTT6L50ZPOkA_racw__hPnuI3MuWTEYa9TpX-nxkow-ByT5-XkYa8zf4w5T-2mG0SyWWW2a_gHBKpPDhAgt2O2mQqIzgBDXTjbkUZZUR_q62-uqaWh3jqjdfmMxZ513DuUKLOVkw77eauLaZpXCYQe2Vefh1jXlO-f8RSgonmXgkRF8gX8XoULPnW7O3JsV9_sjW3u3tmTIC0K689pgpA"/>
+<div class="absolute top-md left-md">
+<span class="px-sm py-1 bg-on-tertiary-container text-on-tertiary text-xs font-bold rounded-sm uppercase tracking-wider">In Stock</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-admin-h1 text-admin-h1 text-primary">SonicStream V2</h3>
+<span class="font-data-mono text-data-mono text-on-surface-variant opacity-60">SKU-9912</span>
+</div>
+<div class="flex items-center justify-between mt-md">
+<span class="font-marketing-h2 text-marketing-h2 text-primary">$349.00</span>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-secondary-container text-secondary transition-colors">add_shopping_cart</button>
+</div>
+</div>
+<div class="add-to-cart-overlay absolute bottom-0 left-0 right-0 p-md bg-gradient-to-t from-primary/90 to-transparent opacity-0 translate-y-4 transition-all duration-300 pointer-events-none">
+<button class="w-full py-3 bg-white text-primary font-bold rounded shadow-xl pointer-events-auto active:scale-95 transition-transform">Add to Basket</button>
+</div>
+</div>
+<!-- Card 4 (Shimmer Loading Placeholder) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden" id="loading-card">
+<div class="aspect-[4/5] shimmer"></div>
+<div class="p-md space-y-md">
+<div class="flex justify-between">
+<div class="h-6 w-2/3 shimmer rounded"></div>
+<div class="h-4 w-1/4 shimmer rounded"></div>
+</div>
+<div class="flex justify-between items-center pt-md">
+<div class="h-8 w-1/3 shimmer rounded"></div>
+<div class="h-10 w-10 shimmer rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Basket FAB -->
+<button class="fixed bottom-lg right-lg w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-[60]" id="basket-fab">
+<div class="relative">
+<span class="material-symbols-outlined text-4xl">shopping_basket</span>
+<span class="absolute -top-2 -right-2 bg-error text-white text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-background" id="basket-counter">3</span>
+</div>
+</button>
+<!-- Footer - Transactional Integrity -->
+<footer class="bg-surface-container-low border-t border-outline-variant mt-xl py-xl">
+<div class="max-w-[1280px] mx-auto px-lg flex flex-col md:flex-row justify-between gap-xl">
+<div class="max-w-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-primary block mb-md">MicroShop Ecosystem</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">The centralized marketplace for high-performance hardware solutions. Managed by the Admin Console Operations Gateway.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-xl">
+<div class="space-y-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Shop</h4>
+<nav class="flex flex-col gap-xs">
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Smartphones</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Laptops</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Workstations</a>
+</nav>
+</div>
+<div class="space-y-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Enterprise</h4>
+<nav class="flex flex-col gap-xs">
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">API Gateway</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">SLA Status</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Admin Console</a>
+</nav>
+</div>
+<div class="space-y-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Support</h4>
+<nav class="flex flex-col gap-xs">
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Contact</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Shipping</a>
+<a class="text-body-sm font-body-sm hover:text-primary transition-colors" href="#">Returns</a>
+</nav>
+</div>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto px-lg mt-xl pt-lg border-t border-outline-variant/30 flex justify-between items-center">
+<p class="font-data-mono text-data-mono text-xs text-on-surface-variant">NODE_ENV: PRODUCTION | PORT: 5000 | V1.2.4</p>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">face_nod</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">language</span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the basket counter
+        const basketCounter = document.getElementById('basket-counter');
+        const fab = document.getElementById('basket-fab');
+        const addToBasketButtons = document.querySelectorAll('.add-to-cart-overlay button');
+
+        addToBasketButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const current = parseInt(basketCounter.innerText);
+                basketCounter.innerText = current + 1;
+                
+                // Pulse effect
+                basketCounter.classList.add('scale-150');
+                setTimeout(() => {
+                    basketCounter.classList.remove('scale-150');
+                }, 200);
+
+                // API call simulation
+                console.log('POST /api/v1/basket - adding item...');
+            });
+        });
+
+        // Simulate lazy loading replacement for shimmer cards
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loadingCard = document.getElementById('loading-card');
+                if (loadingCard) {
+                    loadingCard.innerHTML = `
+                        <div class="product-card group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+                            <div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+                                <img src="placeholder" data-alt="A top-down layout of several sleek electronic accessories, including a graphite charging pad, a silver stylus, and a braided USB-C cable. The arrangement is geometrically precise on a dark gray matte surface. Soft studio lighting creates professional, subtle highlights. The look is clean, high-end, and technical." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute top-md left-md">
+                                    <span class="px-sm py-1 bg-on-tertiary-container text-on-tertiary text-xs font-bold rounded-sm uppercase tracking-wider">In Stock</span>
+                                </div>
+                            </div>
+                            <div class="p-md">
+                                <div class="flex justify-between items-start mb-xs">
+                                    <h3 class="font-admin-h1 text-admin-h1 text-primary">Core Link Pack</h3>
+                                    <span class="font-data-mono text-data-mono text-on-surface-variant opacity-60">SKU-1004</span>
+                                </div>
+                                <div class="flex items-center justify-between mt-md">
+                                    <span class="font-marketing-h2 text-marketing-h2 text-primary">$89.00</span>
+                                    <button class="material-symbols-outlined p-2 rounded-full hover:bg-secondary-container text-secondary transition-colors">add_shopping_cart</button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart-overlay absolute bottom-0 left-0 right-0 p-md bg-gradient-to-t from-primary/90 to-transparent opacity-0 translate-y-4 transition-all duration-300 pointer-events-none">
+                                <button class="w-full py-3 bg-white text-primary font-bold rounded shadow-xl pointer-events-auto active:scale-95 transition-transform">Add to Basket</button>
+                            </div>
+                        </div>
+                    `;
+                    // Refresh listeners
+                    const newBtn = loadingCard.querySelector('.add-to-cart-overlay button');
+                    newBtn.addEventListener('click', () => {
+                        basketCounter.innerText = parseInt(basketCounter.innerText) + 1;
+                        basketCounter.classList.add('scale-150');
+                        setTimeout(() => basketCounter.classList.remove('scale-150'), 200);
+                    });
+                }
+            }, 2500);
+        });
+
+        // Interactive stock badge logic (randomly simulation)
+        document.querySelectorAll('.px-sm').forEach(badge => {
+            if (Math.random() > 0.8) {
+                badge.className = 'px-sm py-1 bg-error-container text-on-error-container text-xs font-bold rounded-sm uppercase tracking-wider flex items-center gap-1';
+                badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>Limited';
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.vite/
+.review-screens/
+*.tsbuildinfo
+
+.env
+.env.*
+!.env.example

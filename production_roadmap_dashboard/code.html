@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Java Microservices Production Roadmap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-surface": "#213145",
+            "surface-container-highest": "#d3e4fe",
+            "on-secondary": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "surface": "#f8f9ff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-dim": "#cbdbf5",
+            "inverse-primary": "#bec6e0",
+            "on-secondary-fixed-variant": "#004395",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#fefcff",
+            "on-tertiary": "#ffffff",
+            "tertiary": "#000000",
+            "surface-container-low": "#eff4ff",
+            "outline": "#76777d",
+            "surface-tint": "#565e74",
+            "surface-container": "#e5eeff",
+            "on-error-container": "#93000a",
+            "on-surface-variant": "#45464d",
+            "background": "#f8f9ff",
+            "outline-variant": "#c6c6cd",
+            "surface-variant": "#d3e4fe",
+            "on-background": "#0b1c30",
+            "on-primary-container": "#7c839b",
+            "tertiary-container": "#002113",
+            "error": "#ba1a1a",
+            "primary-fixed": "#dae2fd",
+            "on-tertiary-fixed": "#002113",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-primary-fixed-variant": "#3f465c",
+            "primary": "#000000",
+            "primary-container": "#131b2e",
+            "secondary-container": "#2170e4",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-surface": "#0b1c30",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#d8e2ff",
+            "on-tertiary-container": "#009668",
+            "primary-fixed-dim": "#bec6e0",
+            "on-primary-fixed": "#131b2e",
+            "on-tertiary-fixed-variant": "#005236",
+            "secondary": "#0058be",
+            "surface-bright": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#001a42"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "xs": "4px",
+            "md": "16px",
+            "gutter": "20px",
+            "container-max": "1440px",
+            "lg": "24px",
+            "xl": "32px",
+            "sm": "8px",
+            "base": "4px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-caps": ["JetBrains Mono"],
+            "code-md": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+            "code-md": ["13px", {"lineHeight": "20px", "fontWeight": "500"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      background-color: #f8f9ff;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+    .card-border {
+      border: 1px solid #E2E8F0;
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-background antialiased overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-background border-r border-outline-variant dark:border-outline flex flex-col py-md z-50">
+<div class="px-6 mb-8">
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-on-background">Java Microservices</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Production Roadmap</div>
+</div>
+<nav class="flex-1 overflow-y-auto custom-scrollbar px-2 space-y-1">
+<!-- Active Item: Standardization -->
+<a class="flex items-center gap-3 bg-surface-container-high dark:bg-secondary-container text-secondary dark:text-on-secondary-container border-l-2 border-secondary px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="rule">rule</span>
+<span class="text-label-sm font-label-sm">Standardization</span>
+</a>
+<!-- Inactive Items -->
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="settings_ethernet">settings_ethernet</span>
+<span class="text-label-sm font-label-sm">Docker &amp; Config</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="fingerprint">fingerprint</span>
+<span class="text-label-sm font-label-sm">Identity</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="text-label-sm font-label-sm">Core Services</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="text-label-sm font-label-sm">Patterns</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="text-label-sm font-label-sm">Messaging</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="text-label-sm font-label-sm">Observability</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="text-label-sm font-label-sm">Kubernetes</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span class="text-label-sm font-label-sm">CI/CD</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-3 hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="quiz">quiz</span>
+<span class="text-label-sm font-label-sm">Testing</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 space-y-1">
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-background px-4 py-2 hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</a>
+<div class="mt-4 pt-4 border-t border-outline-variant flex items-center gap-3 px-2">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary">JD</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-label-sm font-bold truncate">John Doe</p>
+<p class="text-[10px] text-on-surface-variant">Lead Architect</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="ml-64 min-h-screen flex flex-col relative">
+<!-- TopAppBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-6">
+<h1 class="text-headline-sm font-headline-sm font-extrabold text-primary dark:text-primary-fixed-dim">Mission Control</h1>
+<nav class="hidden md:flex gap-4">
+<a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary py-1 text-body-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-on-background hover:text-secondary transition-colors py-1 text-body-md" href="#">Metrics</a>
+<a class="text-on-surface-variant dark:text-on-background hover:text-secondary transition-colors py-1 text-body-md" href="#">Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="help_outline">help_outline</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-sm font-bold active:opacity-80 transition-opacity">Deploy Now</button>
+</div>
+</header>
+<!-- Page Content Container -->
+<div class="mt-16 p-gutter max-w-container-max mx-auto w-full grid grid-cols-12 gap-gutter overflow-y-auto h-[calc(100vh-4rem)] custom-scrollbar">
+<!-- Page Header & Progress -->
+<section class="col-span-12 py-md border-b border-outline-variant mb-4">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="text-label-caps text-secondary uppercase tracking-widest mb-1 block">Architecture Roadmap 2025</span>
+<h2 class="text-headline-lg font-headline-lg">Java Microservices Production Foundation</h2>
+</div>
+<div class="flex flex-col items-end gap-2 w-full md:w-auto">
+<div class="flex justify-between w-full text-label-sm font-bold text-on-surface-variant">
+<span>Overall Progress</span>
+<span>10% (Phase 1/10)</span>
+</div>
+<div class="w-full md:w-64 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[10%] rounded-full shadow-[0_0_8px_rgba(0,88,190,0.4)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Current Phase Hero: Standardization -->
+<section class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-low rounded-xl card-border p-xl relative overflow-hidden">
+<!-- Atmospheric Background Accent -->
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="rule">rule</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-secondary text-on-secondary w-10 h-10 rounded flex items-center justify-center font-bold text-headline-sm">1</span>
+<h3 class="text-headline-md font-headline-md">Phase 1: Platform Standardization</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Tech Stack -->
+<div class="space-y-3">
+<p class="text-label-caps text-on-surface-variant">TECH STACK</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+<span class="font-code-md text-code-md">Java 21 LTS</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+<span class="font-code-md text-code-md">Spring Boot 3.5.x</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+<span class="font-code-md text-code-md">Spring Cloud 2025.0.x</span>
+</li>
+</ul>
+</div>
+<!-- Key Patterns -->
+<div class="space-y-3">
+<p class="text-label-caps text-on-surface-variant">KEY PATTERNS</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-body-md">
+<span class="material-symbols-outlined text-secondary scale-75" data-icon="verified">verified</span>
+                    Clean Architecture
+                  </li>
+<li class="flex items-center gap-2 text-body-md">
+<span class="material-symbols-outlined text-secondary scale-75" data-icon="verified">verified</span>
+                    MapStruct Mappings
+                  </li>
+<li class="flex items-center gap-2 text-body-md">
+<span class="material-symbols-outlined text-secondary scale-75" data-icon="verified">verified</span>
+                    Bean Validation 3.0
+                  </li>
+</ul>
+</div>
+<!-- Data Strategy -->
+<div class="space-y-3">
+<p class="text-label-caps text-on-surface-variant">DATA STRATEGY</p>
+<div class="bg-surface rounded p-3 border border-outline-variant">
+<div class="font-code-md text-[12px] text-on-surface-variant mb-1">Migrations</div>
+<div class="text-body-md font-bold mb-3">Flyway (PostgreSQL)</div>
+<div class="font-code-md text-[12px] text-on-surface-variant mb-1">NoSQL Setup</div>
+<div class="text-body-md font-bold">Mongo Index Initializers</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded font-bold text-label-sm">Approve Standards</button>
+<button class="bg-transparent border border-outline px-6 py-2 rounded font-bold text-label-sm hover:bg-surface-variant transition-colors">Download Archetype</button>
+</div>
+</div>
+</div>
+<!-- Roadmap Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<h4 class="col-span-full text-headline-sm font-headline-sm pt-4">Roadmap Overview</h4>
+<!-- Phase 2 -->
+<div class="bg-white p-md rounded-lg card-border hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="text-label-caps text-on-surface-variant">PHASE 2</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface-variant">PLANNED</span>
+</div>
+<h5 class="text-body-lg font-bold mb-2 group-hover:text-secondary">Docker &amp; Config</h5>
+<p class="text-body-md text-on-surface-variant mb-4">Multi-stage builds, centralized config server, and Spring Cloud Config integration.</p>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="settings_ethernet">settings_ethernet</span>
+<span class="material-symbols-outlined text-outline" data-icon="key">key</span>
+</div>
+</div>
+<!-- Phase 3 -->
+<div class="bg-white p-md rounded-lg card-border hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="text-label-caps text-on-surface-variant">PHASE 3</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface-variant">PLANNED</span>
+</div>
+<h5 class="text-body-lg font-bold mb-2 group-hover:text-secondary">Identity &amp; OAuth2</h5>
+<p class="text-body-md text-on-surface-variant mb-4">Auth Code + PKCE flow, Keycloak integration, and RBAC implementation.</p>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="fingerprint">fingerprint</span>
+<span class="material-symbols-outlined text-outline" data-icon="shield">shield</span>
+</div>
+</div>
+<!-- Phase 4 -->
+<div class="bg-white p-md rounded-lg card-border hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="text-label-caps text-on-surface-variant">PHASE 4</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface-variant">PLANNED</span>
+</div>
+<h5 class="text-body-lg font-bold mb-2 group-hover:text-secondary">Core Services</h5>
+<p class="text-body-md text-on-surface-variant mb-4">Implementation of Product, Basket, and Inventory core microservices.</p>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="shopping_basket">shopping_basket</span>
+<span class="material-symbols-outlined text-outline" data-icon="inventory_2">inventory_2</span>
+</div>
+</div>
+<!-- Phase 5 -->
+<div class="bg-white p-md rounded-lg card-border hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="text-label-caps text-on-surface-variant">PHASE 5</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface-variant">PLANNED</span>
+</div>
+<h5 class="text-body-lg font-bold mb-2 group-hover:text-secondary">Saga &amp; Outbox</h5>
+<p class="text-body-md text-on-surface-variant mb-4">Distributed transactions with Saga Orchestration and transactional outbox pattern.</p>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="account_tree">account_tree</span>
+<span class="material-symbols-outlined text-outline" data-icon="sync">sync</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar: Production Readiness & Stats -->
+<aside class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Readiness Checklist Component -->
+<div class="bg-white rounded-xl card-border p-md">
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-headline-sm font-headline-sm">Readiness Checklist</h4>
+<span class="bg-tertiary-fixed-dim text-tertiary-container px-2 py-1 rounded text-[10px] font-bold">2/4 DONE</span>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded border-2 border-secondary flex items-center justify-center bg-secondary">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="text-body-md font-bold">Non-root Docker images</p>
+<p class="text-label-sm text-on-surface-variant">Verified by Platform Sec @ 10:45 AM</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded border-2 border-secondary flex items-center justify-center bg-secondary">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="text-body-md font-bold">Security Scan (Trivy)</p>
+<p class="text-label-sm text-on-surface-variant">Clean report generated last night</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded border-2 border-outline flex items-center justify-center"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface-variant">100 RPS Load Test (k6)</p>
+<p class="text-label-sm text-on-surface-variant">Pending Phase 4 completion</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded border-2 border-outline flex items-center justify-center"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface-variant">Helm deployment green</p>
+<p class="text-label-sm text-on-surface-variant">Waiting for Staging K8s env</p>
+</div>
+</li>
+</ul>
+<button class="w-full mt-6 py-3 bg-surface-container text-on-surface font-bold text-label-sm rounded border border-outline-variant hover:bg-surface-container-high transition-colors">
+            Run Full Audit
+          </button>
+</div>
+<!-- System Architecture Snippet -->
+<div class="bg-primary-container text-on-primary p-md rounded-xl shadow-lg">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary" data-icon="code">code</span>
+<span class="text-label-caps text-on-primary-container">BASE CONFIGURATION</span>
+</div>
+<pre class="font-code-md text-code-md text-on-secondary-container overflow-x-auto custom-scrollbar leading-relaxed"><span class="text-tertiary-fixed">spring</span>:
+  <span class="text-tertiary-fixed">application</span>:
+    <span class="text-tertiary-fixed">name</span>: order-service
+  <span class="text-tertiary-fixed">cloud</span>:
+    <span class="text-tertiary-fixed">kubernetes</span>:
+      <span class="text-tertiary-fixed">config</span>:
+        <span class="text-tertiary-fixed">enabled</span>: true
+<span class="text-tertiary-fixed">management</span>:
+  <span class="text-tertiary-fixed">endpoints</span>:
+    <span class="text-tertiary-fixed">web</span>:
+      <span class="text-tertiary-fixed">exposure</span>:
+        <span class="text-tertiary-fixed">include</span>: health,prometheus
+          </pre>
+</div>
+<!-- Infrastructure Visual Anchor -->
+<div class="relative h-48 rounded-xl overflow-hidden card-border group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A clean, high-tech architectural 3D render of a data center floor with glowing server racks in shades of deep blue and pristine white. The lighting is cold and professional, reflecting an engineering excellence aesthetic. Floating holographic diagrams of microservice connections drift in the air above the hardware. The scene conveys reliability, high performance, and modern technology infrastructure." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBesggyjBO9tQ98XRkM-bFkq21hzk3WZw_0aLka3TrwqZp2fECy-DHVqzIml697UR-0TUIY0BYYb8Z_e4nGBzO0DVws7rvu_teAJIwr7Vfw4uUHql6EjkEIztTOw4yPzWghSmTi7bvg-3p9A8DcbpwkgqoOBQk7nGUeSEF7WP-Nsz1lj6vCj4wqdXoe_5vSAFrqG8sV3ZyUUgbYOH5d6aGVI3kwGIOom1Jbbe7W9YVEYaf-caqtiQCDjRsO88GT7k2EtagMMwhYX30')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent flex items-end p-md">
+<div class="text-white">
+<p class="text-label-caps opacity-80">DATACENTER NODES</p>
+<h5 class="font-bold">Production Region: US-EAST-1</h5>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+    // Micro-interactions and lightness
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.group');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-2px)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0px)';
+        });
+      });
+    });
+  </script>
+</body></html>

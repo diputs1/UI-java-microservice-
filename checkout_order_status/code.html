@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Checkout &amp; Tracking | MicroShop Ecosystem</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "on-surface-variant": "#45464d",
+                        "surface-variant": "#e0e3e5",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-tertiary-fixed": "#001e2f",
+                        "secondary-container": "#d5e3fd",
+                        "tertiary": "#000000",
+                        "on-primary-fixed": "#131b2e",
+                        "primary": "#000000",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#515f74",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "outline": "#76777d",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-container": "#008cc7",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "tertiary-fixed": "#c9e6ff",
+                        "primary-fixed": "#dae2fd",
+                        "tertiary-container": "#001e2f",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#57657b",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed": "#d5e3fd",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "outline-variant": "#c6c6cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "sidebar-width": "260px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "xl": "48px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "marketing-h2": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "body-base": ["Inter"],
+                        "marketing-h1": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "admin-h1": ["Inter"]
+                    },
+                    "fontSize": {
+                        "marketing-h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "marketing-h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "admin-h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+        }
+        .step-active {
+            animation: pulse-ring 2s infinite;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-base overflow-x-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface flex justify-between items-center w-full px-lg h-16 sticky top-0 z-50 border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">MicroShop Ecosystem</h1>
+</div>
+<nav class="hidden md:flex items-center gap-xl h-full">
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm h-full flex items-center" href="#">Catalog</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm h-full flex items-center" href="#">Inventory</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm h-full flex items-center" href="#">Orders</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm h-full flex items-center" href="#">Jobs</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="bg-primary text-on-primary px-lg py-2 rounded-lg font-bold hover:opacity-80 transition-opacity flex items-center gap-xs">
+<span class="material-symbols-outlined">shopping_basket</span>
+                Basket
+            </button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-lg py-xl min-h-screen">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-start">
+<!-- Left Column: Order Flow & Status -->
+<div class="lg:col-span-8 space-y-xl">
+<!-- Main Status Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl shadow-sm relative overflow-hidden" id="status-card">
+<div class="hidden absolute inset-0 bg-surface/80 flex items-center justify-center z-10 backdrop-blur-[2px]" id="saga-overlay">
+<div class="text-center">
+<div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-md"></div>
+<p class="font-bold text-primary">Securing inventory...</p>
+<p class="text-sm text-on-surface-variant">Synchronizing with API Gateway Port 5000</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
+<div>
+<h2 class="font-admin-h1 text-admin-h1 mb-xs">Order Tracking</h2>
+<p class="text-on-surface-variant font-data-mono text-data-mono">ID: ORD-59284-MS-71</p>
+</div>
+<div id="badge-container">
+<span class="bg-secondary-container text-on-secondary-container px-md py-1 rounded-full text-sm font-bold flex items-center gap-xs" id="status-badge">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+                                PENDING
+                            </span>
+</div>
+</div>
+<!-- Saga Visualization Stepper -->
+<div class="relative py-md">
+<!-- Connecting Line -->
+<div class="absolute left-6 top-10 bottom-10 w-[2px] bg-outline-variant md:left-0 md:right-0 md:top-6 md:h-[2px] md:w-auto -z-0"></div>
+<div class="flex flex-col md:flex-row justify-between relative z-10 gap-xl md:gap-0">
+<!-- Step 1 -->
+<div class="flex flex-row md:flex-col items-center gap-md md:text-center group">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-surface shadow-md" id="step-1-icon">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Order Created</p>
+<p class="text-xs text-on-surface-variant">v1.0.4-STABLE</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-row md:flex-col items-center gap-md md:text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border-4 border-surface shadow-md" id="step-2-icon">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<div>
+<p class="font-bold text-on-surface-variant">Stock Secured</p>
+<p class="text-xs text-on-surface-variant">INVENTORY_RESERVED</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-row md:flex-col items-center gap-md md:text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border-4 border-surface shadow-md" id="step-3-icon">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<p class="font-bold text-on-surface-variant">Finalization</p>
+<p class="text-xs text-on-surface-variant">COMPLETED</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal View / Microservice Logs -->
+<div class="mt-xl bg-primary-container p-md rounded-lg font-data-mono text-data-mono text-on-primary-container border border-on-primary-fixed-variant">
+<div class="flex items-center gap-sm mb-sm border-b border-on-primary-fixed-variant pb-xs">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="w-3 h-3 rounded-full bg-warning opacity-50"></span>
+<span class="w-3 h-3 rounded-full bg-on-tertiary-container"></span>
+<span class="ml-auto text-[10px] uppercase opacity-60">saga-orchestrator-logs</span>
+</div>
+<div class="space-y-1 h-32 overflow-y-auto hide-scroll" id="terminal-content">
+<p class="text-green-400">[09:41:02] REQUEST RECEIVED: POST /api/v1/orders/checkout</p>
+<p class="text-blue-300">[09:41:03] SAGA INITIALIZED: TXN_A823</p>
+<p class="text-blue-300">[09:41:04] CALLING: inventory-service:5001/reserve</p>
+<div class="inline-block w-2 h-4 bg-on-primary-container animate-pulse align-middle" id="log-cursor"></div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Detail Panels -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Delivery Card -->
+<div class="bg-surface-container-low p-lg rounded-xl border border-outline-variant hover:shadow-md transition-all">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<h3 class="font-bold">Shipping Address</h3>
+</div>
+<p class="text-on-surface-variant text-sm">John Doe<br/>123 Microservice Way, Suite 404<br/>San Francisco, CA 94105</p>
+</div>
+<!-- Billing Card -->
+<div class="bg-surface-container-low p-lg rounded-xl border border-outline-variant hover:shadow-md transition-all">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">credit_card</span>
+</div>
+<h3 class="font-bold">Payment Method</h3>
+</div>
+<p class="text-on-surface-variant text-sm">•••• •••• •••• 4242<br/>Expires: 12/26<br/>Visa Platinum</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Summary -->
+<div class="lg:col-span-4 sticky top-24">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-admin-h1 text-admin-h1">Summary</h2>
+<span class="font-data-mono text-xs px-2 py-1 bg-surface-variant rounded">v.2024.11</span>
+</div>
+<div class="p-lg space-y-md">
+<!-- Item List -->
+<div class="space-y-md">
+<div class="flex gap-md group">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="A premium, sleek mechanical keyboard with translucent keycaps and subtle RGB lighting, captured in a high-key studio setting with professional light-mode aesthetic. The product rests on a clean white desk surface, conveying a sense of minimalist luxury and technical precision. The color palette is primarily white and light gray with soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPXFnbXnbV6yU5DbqYSt9xMhTUSUNH9dCwZ1lj5LYWdGr2-Yj8h1MXNuDLhdch6ugnCUufvOYPgZTNW_If9tBcQAQM-dpYHIXY5U98Q-WSnUdme61pZ4RI1sqV97fna9ak-i9M1u8xjXUZLJAY1zITc54i5c8viGdYkew5-ihNV_50PhcCd9R_kX6qWDuOpwxJaKRE758zQjUsL8UpkeUKuIVE8Ewg-kZd7YtAI5QcPo0xhBejjxBgt357odjQDUhYC6jsqCNXjA8"/>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-sm">Quantum Matrix K1</p>
+<p class="text-xs text-on-surface-variant">Qty: 1</p>
+<p class="text-sm font-data-mono">$249.00</p>
+</div>
+</div>
+<div class="flex gap-md group">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="A high-performance gaming mouse with a futuristic, perforated shell design and carbon fiber accents. The scene is illuminated by soft, neutral lights that highlight the technical textures of the device. The background is a crisp, off-white workspace, maintaining a clean and professional modern interface feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf6blJcAcjMolysudFRwDTLbBb-H6OILooUIvRYtMptRG387rM72q_a4g7e8PMZsVfWtppTttuyPzSJLObaHG1UhzY9Im9HwI2yVx01TrUTeDzPsSS5-cmAqgCf6TalqsmjIKPAqYqZ09z7cEC1JhhE599nghbdMfj5jCpqsk0GYzMiHSVZMEM-BTPW4dUkYATOMMGEcQXTkQcf-vN3WVlKv0rmkMTKhzLk9dI_Se3EO7J6Ms0-kgfvYKu0zByoSggPizkKI8HrI0"/>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-sm">AeroGlide Pro Mouse</p>
+<p class="text-xs text-on-surface-variant">Qty: 2</p>
+<p class="text-sm font-data-mono">$178.00</p>
+</div>
+</div>
+</div>
+<!-- Pricing Breakdown -->
+<div class="pt-lg border-t border-outline-variant space-y-sm">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-data-mono">$427.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Shipping (Priority)</span>
+<span class="font-data-mono text-on-tertiary-container">FREE</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Estimated Tax</span>
+<span class="font-data-mono">$34.16</span>
+</div>
+<div class="flex justify-between pt-md border-t border-outline-variant">
+<span class="font-bold text-admin-h1">Total</span>
+<span class="font-bold text-admin-h1">$461.16</span>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-md" id="final-cta">
+                            Confirm Saga Finalization
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-sm">security</span>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Encrypted via TLS 1.3 | MicroShop Gateway</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive Overlay Templates -->
+<div class="hidden fixed inset-0 z-[100] bg-surface/95 flex items-center justify-center p-md" id="success-view">
+<div class="max-w-md w-full text-center bg-surface-container-lowest p-xl rounded-2xl shadow-2xl border border-outline-variant transform scale-95 transition-transform duration-500">
+<div class="w-24 h-24 bg-secondary-container text-on-tertiary-container rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-6xl">check_circle</span>
+</div>
+<h2 class="text-marketing-h2 font-marketing-h2 mb-md">Order Completed</h2>
+<p class="text-on-surface-variant mb-xl">Your micro-transaction has been successfully finalized across the cluster. Digital receipt has been dispatched.</p>
+<div class="bg-surface-container-low p-md rounded-lg mb-xl font-data-mono text-sm border border-outline-variant">
+                ID: ORD-59284-SUCCESS
+            </div>
+<button class="w-full py-md bg-primary text-on-primary rounded-lg font-bold" onclick="location.reload()">Return to Dashboard</button>
+</div>
+</div>
+<div class="hidden fixed inset-0 z-[100] bg-surface/95 flex items-center justify-center p-md" id="failure-view">
+<div class="max-w-md w-full text-center bg-error-container p-xl rounded-2xl shadow-2xl border border-error transform scale-95 transition-transform">
+<div class="w-24 h-24 bg-on-error text-error rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-6xl">error</span>
+</div>
+<h2 class="text-marketing-h2 font-marketing-h2 text-on-error-container mb-md">Saga Interrupted</h2>
+<p class="text-on-error-container opacity-80 mb-xl">Error Code: INVENTORY_UNAVAILABLE. The orchestrator has triggered an automatic rollback (RELEASE).</p>
+<div class="bg-white/50 p-md rounded-lg mb-xl font-data-mono text-sm border border-error/20">
+                STATUS: RELEASED_COMPENSATED
+            </div>
+<button class="w-full py-md bg-error text-on-error rounded-lg font-bold" onclick="location.reload()">Contact Node Admin</button>
+</div>
+</div>
+<script>
+        const finalCta = document.getElementById('final-cta');
+        const sagaOverlay = document.getElementById('saga-overlay');
+        const terminalContent = document.getElementById('terminal-content');
+        const logCursor = document.getElementById('log-cursor');
+        const statusBadge = document.getElementById('status-badge');
+        const step2Icon = document.getElementById('step-2-icon');
+        const step3Icon = document.getElementById('step-3-icon');
+        const successView = document.getElementById('success-view');
+        const failureView = document.getElementById('failure-view');
+
+        const logs = [
+            "[09:41:06] CLUSTER_PROBE: Success",
+            "[09:41:07] DB_WRITE: OK (12ms)",
+            "[09:41:08] SYNCING: InventoryService...",
+            "[09:41:10] EVENT: InventoryReserved_Event",
+            "[09:41:12] GATEWAY: Routing to Payment Processor",
+            "[09:41:14] STATUS: Txn_Finalizing..."
+        ];
+
+        function addLog(text, color = "text-on-primary-container") {
+            const p = document.createElement('p');
+            p.className = color;
+            p.textContent = text;
+            terminalContent.insertBefore(p, logCursor);
+            terminalContent.scrollTop = terminalContent.scrollHeight;
+        }
+
+        finalCta.addEventListener('click', () => {
+            // Trigger phase 2: Inventory Reserved
+            sagaOverlay.classList.remove('hidden');
+            finalCta.disabled = true;
+            finalCta.classList.add('opacity-50');
+
+            setTimeout(() => {
+                addLog(logs[0], "text-green-400");
+                addLog(logs[1], "text-on-primary-container");
+            }, 500);
+
+            setTimeout(() => {
+                // Update Badge
+                statusBadge.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">inventory</span> INVENTORY_RESERVED`;
+                statusBadge.classList.replace('bg-secondary-container', 'bg-tertiary-fixed');
+                statusBadge.classList.replace('text-on-secondary-container', 'text-on-tertiary-fixed');
+                
+                // Update Step
+                step2Icon.classList.replace('bg-surface-variant', 'bg-primary');
+                step2Icon.classList.replace('text-on-surface-variant', 'text-on-primary');
+                step2Icon.classList.add('step-active');
+                
+                addLog(logs[2], "text-yellow-400");
+                addLog(logs[3], "text-green-400");
+            }, 2000);
+
+            // Probability of failure simulation
+            const success = Math.random() > 0.2;
+
+            setTimeout(() => {
+                if (success) {
+                    addLog(logs[4], "text-blue-300");
+                    addLog(logs[5], "text-green-400");
+                    
+                    // Final Success
+                    setTimeout(() => {
+                        sagaOverlay.classList.add('hidden');
+                        successView.classList.remove('hidden');
+                        setTimeout(() => successView.children[0].classList.remove('scale-95'), 50);
+                    }, 1500);
+                } else {
+                    addLog("[09:41:15] CRITICAL: Inventory lock timeout", "text-red-400");
+                    addLog("[09:41:16] ROLLBACK: Releasing allocated items...", "text-yellow-400");
+                    
+                    // Failure View
+                    setTimeout(() => {
+                        sagaOverlay.classList.add('hidden');
+                        failureView.classList.remove('hidden');
+                        setTimeout(() => failureView.children[0].classList.remove('scale-95'), 50);
+                    }, 1500);
+                }
+            }, 4000);
+        });
+    </script>
+</body></html>

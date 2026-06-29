@@ -13,7 +13,6 @@ import {
   Gauge,
   HeartPulse,
   Home,
-  Layers3,
   Package,
   RefreshCcw,
   Search,
@@ -32,7 +31,8 @@ import {
   getProducts,
   saveBasket
 } from "./api";
-import { mockProducts, roadmapPhases } from "./data";
+import { AuthUser, hasRole, readAuthUser } from "./auth";
+import { mockProducts } from "./data";
 
 const customerId = "101";
 
@@ -44,7 +44,9 @@ function StatusBadge({ value }: { value: string }) {
   return <span className={`badge ${value.toLowerCase().replaceAll("_", "-")}`}>{value}</span>;
 }
 
-function TopNav({ cartCount }: { cartCount: number }) {
+function TopNav({ cartCount, user }: { cartCount: number; user: AuthUser }) {
+  const isAdmin = hasRole(user, "ADMIN");
+
   return (
     <header className="topbar">
       <NavLink className="brand" to="/">
@@ -53,11 +55,14 @@ function TopNav({ cartCount }: { cartCount: number }) {
       <nav className="toplinks">
         <NavLink to="/">Catalog</NavLink>
         <NavLink to="/checkout">Checkout</NavLink>
-        <NavLink to="/admin/orders">Admin</NavLink>
-        <NavLink to="/roadmap">Roadmap</NavLink>
+        {isAdmin ? <NavLink to="/admin/orders">Admin</NavLink> : null}
       </nav>
       <div className="top-actions">
         <span className="api-pill">Gateway {API_BASE.replace("/api/v1", "")}</span>
+        <span className="user-pill">
+          {user.displayName}
+          <b>{user.roles.join(" + ")}</b>
+        </span>
         <NavLink className="basket-button" to="/checkout" aria-label="Open basket">
           <ShoppingBasket size={20} />
           Basket
@@ -275,7 +280,7 @@ function CheckoutPage({ items, setItems }: { items: BasketItem[]; setItems: (ite
   );
 }
 
-function AdminLayout() {
+function AdminLayout({ user }: { user: AuthUser }) {
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
@@ -306,8 +311,8 @@ function AdminLayout() {
         <div className="admin-profile">
           <UserCircle />
           <div>
-            <strong>System Admin</strong>
-            <span>ADMIN role</span>
+            <strong>{user.displayName}</strong>
+            <span>{user.roles.join(" + ")} role</span>
           </div>
         </div>
       </aside>
@@ -320,6 +325,37 @@ function AdminLayout() {
         <Route path="*" element={<OrdersPage />} />
       </Routes>
     </div>
+  );
+}
+
+function RequireRole({
+  user,
+  role,
+  children
+}: {
+  user: AuthUser;
+  role: "ADMIN" | "CUSTOMER";
+  children: React.ReactNode;
+}) {
+  if (hasRole(user, role)) {
+    return <>{children}</>;
+  }
+
+  return <AccessDenied user={user} requiredRole={role} />;
+}
+
+function AccessDenied({ user, requiredRole }: { user: AuthUser; requiredRole: "ADMIN" | "CUSTOMER" }) {
+  return (
+    <main className="page access-denied">
+      <AlertTriangle size={46} />
+      <p className="eyebrow">RBAC denied</p>
+      <h1>Access restricted</h1>
+      <p>
+        Current role: <strong>{user.roles.join(" + ")}</strong>. This area requires{" "}
+        <strong>{requiredRole}</strong>.
+      </p>
+      <NavLink to="/">Back to catalog</NavLink>
+    </main>
   );
 }
 
@@ -531,77 +567,9 @@ function DataTable({ headers, rows }: { headers: string[]; rows: React.ReactNode
   );
 }
 
-function RoadmapPage() {
-  return (
-    <main className="roadmap-page">
-      <aside className="roadmap-sidebar">
-        <h1>Java Microservices</h1>
-        <span>Production Roadmap</span>
-        <nav>
-          {roadmapPhases.map((phase, index) => (
-            <a className={index === 0 ? "active" : ""} key={phase}>
-              <Layers3 size={18} />
-              {phase}
-            </a>
-          ))}
-        </nav>
-      </aside>
-      <section className="roadmap-main">
-        <div className="roadmap-hero">
-          <p className="eyebrow">Architecture Roadmap 2025</p>
-          <h1>Java Microservices Production Foundation</h1>
-          <div className="progress-line">
-            <span style={{ width: "10%" }} />
-          </div>
-        </div>
-        <div className="roadmap-grid">
-          <article className="roadmap-card large">
-            <b>Phase 1</b>
-            <h2>Platform Standardization</h2>
-            <ul>
-              <li>Java 21, Spring Boot 3.5.x, Spring Cloud 2025.0.x</li>
-              <li>MapStruct, Bean Validation, Flyway validate</li>
-              <li>Common module split by API, security, events, observability</li>
-            </ul>
-          </article>
-          <article className="roadmap-card checklist">
-            <h2>Readiness Checklist</h2>
-            <label>
-              <input type="checkbox" checked readOnly /> Non-root Docker images
-            </label>
-            <label>
-              <input type="checkbox" checked readOnly /> Error contract with traceId
-            </label>
-            <label>
-              <input type="checkbox" readOnly /> 100 RPS k6 load test
-            </label>
-            <label>
-              <input type="checkbox" readOnly /> Helm staging green
-            </label>
-          </article>
-          <article className="roadmap-card code-card">
-            <pre>{`server:
-  port: 5000
-spring:
-  cloud:
-    gateway:
-      routes:
-        - Path=/api/v1/orders/**
-security:
-  oauth2: pkce`}</pre>
-          </article>
-          <article className="roadmap-card">
-            <h2>Saga & Outbox</h2>
-            <p>PENDING to INVENTORY_RESERVED to COMPLETED with idempotency key and publisher confirm.</p>
-          </article>
-        </div>
-      </section>
-    </main>
-  );
-}
-
 export default function App() {
   const [items, setItems] = useState<BasketItem[]>([]);
+  const user = useMemo(() => readAuthUser(), []);
   const cartCount = useMemo(() => items.reduce((sum, item) => sum + item.quantity, 0), [items]);
 
   const addItem = (product: Product) => {
@@ -627,7 +595,7 @@ export default function App() {
         path="/"
         element={
           <>
-            <TopNav cartCount={cartCount} />
+            <TopNav cartCount={cartCount} user={user} />
             <CatalogPage onAdd={addItem} />
           </>
         }
@@ -636,13 +604,19 @@ export default function App() {
         path="/checkout"
         element={
           <>
-            <TopNav cartCount={cartCount} />
+            <TopNav cartCount={cartCount} user={user} />
             <CheckoutPage items={items} setItems={setItems} />
           </>
         }
       />
-      <Route path="/admin/*" element={<AdminLayout />} />
-      <Route path="/roadmap" element={<RoadmapPage />} />
+      <Route
+        path="/admin/*"
+        element={
+          <RequireRole user={user} role="ADMIN">
+            <AdminLayout user={user} />
+          </RequireRole>
+        }
+      />
       <Route
         path="*"
         element={

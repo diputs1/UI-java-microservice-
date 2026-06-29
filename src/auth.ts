@@ -35,14 +35,14 @@ export function readAuthUser(): AuthUser {
 
   if (payload) {
     return {
-      displayName: payload.name ?? payload.preferred_username ?? payload.email ?? "Authenticated user",
+      displayName: payload.name ?? payload.preferred_username ?? payload.email ?? "Người dùng đã xác thực",
       roles: extractRoles(payload),
       source: "jwt"
     };
   }
 
   return {
-    displayName: "Customer demo",
+    displayName: "Khách hàng demo",
     roles: ["CUSTOMER"],
     source: "local"
   };

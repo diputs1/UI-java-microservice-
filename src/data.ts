@@ -4,8 +4,8 @@ export const mockProducts: Product[] = [
   {
     id: 1,
     sku: "SKU-8821",
-    name: "Quantum X1 Phone",
-    description: "Flagship device with titanium frame and secure checkout telemetry.",
+    name: "Điện thoại Quantum X1",
+    description: "Thiết bị flagship với khung titanium và telemetry thanh toán bảo mật.",
     price: 1299,
     quantity: 8,
     updatedAt: "2026-06-26T09:00:00Z"
@@ -14,7 +14,7 @@ export const mockProducts: Product[] = [
     id: 2,
     sku: "SKU-4402",
     name: "NebulaBook Pro 16",
-    description: "Workstation laptop tuned for creators, engineers, and heavy workflows.",
+    description: "Laptop workstation tối ưu cho nhà sáng tạo, kỹ sư và quy trình làm việc nặng.",
     price: 2499,
     quantity: 3,
     updatedAt: "2026-06-26T09:10:00Z"
@@ -23,7 +23,7 @@ export const mockProducts: Product[] = [
     id: 3,
     sku: "SKU-9912",
     name: "SonicStream V2",
-    description: "Noise-canceling headset with precise low-latency audio.",
+    description: "Tai nghe chống ồn với âm thanh độ trễ thấp, chính xác.",
     price: 349,
     quantity: 16,
     updatedAt: "2026-06-26T09:20:00Z"
@@ -31,8 +31,8 @@ export const mockProducts: Product[] = [
   {
     id: 4,
     sku: "SKU-1004",
-    name: "Core Link Pack",
-    description: "Accessory bundle with dock, cable, and fast charger.",
+    name: "Bộ phụ kiện Core Link",
+    description: "Gói phụ kiện gồm dock, cáp và sạc nhanh.",
     price: 89,
     quantity: 42,
     updatedAt: "2026-06-26T09:30:00Z"

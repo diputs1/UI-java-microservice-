@@ -1,4 +1,5 @@
 import { mockEvents, mockInventory, mockOrders, mockProducts } from "./data";
+import { getStoredAccessToken } from "./auth";
 
 export const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000/api/v1";
 
@@ -59,11 +60,13 @@ export type JobEvent = {
 type ApiEnvelope<T> = T | { data: T; success?: boolean; traceId?: string };
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getStoredAccessToken();
   const response = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
       "X-Correlation-Id": crypto.randomUUID(),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(init?.headers ?? {})
     }
   });

@@ -112,15 +112,3 @@ export const mockEvents: JobEvent[] = [
   }
 ];
 
-export const roadmapPhases = [
-  "Standardization",
-  "Docker & Config",
-  "Identity & OAuth2",
-  "Product Basket Inventory",
-  "Ordering Saga & Outbox",
-  "RabbitMQ & Jobs",
-  "Observability",
-  "Kubernetes & Helm",
-  "CI/CD",
-  "Testing"
-];
